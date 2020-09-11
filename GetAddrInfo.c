@@ -22,11 +22,11 @@ void rawmain()
     LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
     if (argc != 2)
     {
-        WSArc = 999;
+        WSArc = ERROR_INVALID_PARAMETER;
     }
-    else if ((WSArc = WSAStartup(MAKEWORD(2, 2), &wsaData))     != 0)
+    else if ((WSArc = WSAStartup(MAKEWORD(2, 2), &wsaData))       != 0)
     { }
-    else if ((WSArc = GetAddrInfoW(argv[1], NULL, NULL, &result))  != 0)
+    else if ((WSArc = GetAddrInfoW(argv[1], NULL, NULL, &result)) != 0)
     { }
     else
     {
