@@ -16,17 +16,17 @@ void rawmain()
 {
     WSADATA wsaData;
     ADDRINFOW* result = NULL;
-    int WSArc = 0;
+    int rc = 0;
 
     int argc;
     LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
     if (argc != 2)
     {
-        WSArc = ERROR_INVALID_PARAMETER;
+        rc = ERROR_INVALID_PARAMETER;
     }
-    else if ((WSArc = WSAStartup(MAKEWORD(2, 2), &wsaData))       != 0)
+    else if ((rc = WSAStartup(MAKEWORD(2, 2), &wsaData))       != 0)
     { }
-    else if ((WSArc = GetAddrInfoW(argv[1], NULL, NULL, &result)) != 0)
+    else if ((rc = GetAddrInfoW(argv[1], NULL, NULL, &result)) != 0)
     { }
     else
     {
@@ -35,7 +35,7 @@ void rawmain()
         for (ADDRINFOW* ptr = result; ptr != NULL; ptr = ptr->ai_next)
         {
             DWORD IPbuflen = 64;
-            if ((WSArc = WSAAddressToStringW((LPSOCKADDR)ptr->ai_addr, (DWORD)ptr->ai_addrlen, NULL, szIP, &IPbuflen)) != 0)
+            if ((rc = WSAAddressToStringW((LPSOCKADDR)ptr->ai_addr, (DWORD)ptr->ai_addrlen, NULL, szIP, &IPbuflen)) != 0)
             {
                 break;
             }
@@ -43,7 +43,7 @@ void rawmain()
             szIP[IPbuflen - 1] = L'\r';
             szIP[IPbuflen    ] = L'\n';
 
-            if ((WSArc = WriteString(szIP, IPbuflen + 1) != 0))
+            if ((rc = WriteString(szIP, IPbuflen + 1) != 0))
             {
                 break;
             }
@@ -53,7 +53,7 @@ void rawmain()
     }
     
     WSACleanup();
-    ExitProcess(WSArc);
+    ExitProcess(rc);
 }
 DWORD WriteString(LPCWSTR str, DWORD numberOfCharsToWrite)
 {
@@ -91,9 +91,9 @@ DWORD WriteString(LPCWSTR str, DWORD numberOfCharsToWrite)
     {
         rc = GetLastError();
     }
-    else
+    else if ( ! WriteFile(hStdOut, multibyteBuffer, bytesWritten, &written, NULL) )
     {
-        WriteFile(hStdOut, multibyteBuffer, bytesWritten, &written, NULL);
+        rc = GetLastError();
     }
 
     if (multibyteBuffer != NULL)

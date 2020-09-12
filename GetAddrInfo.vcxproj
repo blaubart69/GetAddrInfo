@@ -120,7 +120,7 @@
       <AdditionalDependencies>kernel32.lib;Ws2_32.lib;Shell32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <EntryPointSymbol>rawmain</EntryPointSymbol>
-      <AdditionalOptions>/SUBSYSTEM:CONSOLE",5.01" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SUBSYSTEM:CONSOLE",5.01" /ALIGN:16 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -161,7 +161,7 @@
       <AdditionalDependencies>kernel32.lib;Ws2_32.lib;Shell32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <EntryPointSymbol>rawmain</EntryPointSymbol>
-      <AdditionalOptions>/SUBSYSTEM:CONSOLE",5.01" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SUBSYSTEM:CONSOLE",5.01" /ALIGN:16 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
