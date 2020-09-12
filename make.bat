@@ -1,0 +1,1 @@
+cl /GS- GetAddrInfo.c /link /ENTRY:rawmain /ALIGN:16 /SUBSYSTEM:CONSOLE",5.01" /nodefaultlib kernel32.lib shell32.lib ws2_32.lib
