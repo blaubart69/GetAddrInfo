@@ -1,3 +1,6 @@
+#define  UNICODE
+#define _UNICODE
+
 #define WIN32_LEAN_AND_MEAN
 #define STRICT
 //#include <Windows.h>
@@ -31,8 +34,9 @@ void rawmain()
     else
     {
         WCHAR szIP[64];
+		ADDRINFOW* ptr;
 
-        for (ADDRINFOW* ptr = result; ptr != NULL; ptr = ptr->ai_next)
+        for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
         {
             DWORD IPbuflen = 64;
             if ((rc = WSAAddressToStringW((LPSOCKADDR)ptr->ai_addr, (DWORD)ptr->ai_addrlen, NULL, szIP, &IPbuflen)) != 0)
