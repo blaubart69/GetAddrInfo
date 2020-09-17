@@ -1,8 +1,8 @@
-#define  UNICODE
-#define _UNICODE
+//#define WINVER _WIN32_WINNT_NT4
 
 #define WIN32_LEAN_AND_MEAN
 #define STRICT
+
 //#include <Windows.h>
 
 #include <winsock2.h>
@@ -14,7 +14,51 @@
 
 #include <shellapi.h>
 
-DWORD WriteString(LPCWSTR str, DWORD numberOfCharsToWrite);
+#include <stdio.h>
+#include <stdarg.h>
+
+//DWORD WriteString(LPCWSTR str, DWORD numberOfCharsToWrite);
+
+// missing in msvcrt.dll on Windows 2000
+//_strcat_s
+//_strcpy_s
+//_strncpy_s
+//_sprintf_s
+
+int sprintf_s(char *buffer, size_t sizeOfBuffer, const char *format, ... )
+{
+	va_list  args;
+	int written;
+	UNREFERENCED_PARAMETER(sizeOfBuffer);
+	
+	va_start(args, format);
+	written	= vsprintf(buffer, format, args);
+	va_end(args);
+	
+	return written;
+}
+
+errno_t strcat_s(char *strDestination, size_t numberOfElements, const char *strSource)
+{
+	UNREFERENCED_PARAMETER(numberOfElements);
+	strcat(strDestination, strSource);
+	return 0;
+}
+
+errno_t strcpy_s(char *dest, rsize_t dest_size, const char *src)
+{
+	UNREFERENCED_PARAMETER(dest_size);
+	strcpy(dest, src);
+	return 0;
+}
+
+errno_t strncpy_s(char *strDest, size_t numberOfElements, const char *strSource, size_t count)
+{
+	UNREFERENCED_PARAMETER(numberOfElements);
+	strncpy(strDest, strSource, count);
+	return 0;
+}
+
 
 //void rawmain()
 int main(int argc, char*argv[])
@@ -23,8 +67,6 @@ int main(int argc, char*argv[])
     ADDRINFOA* result = NULL;
     int rc = 0;
 
-    //int argc;
-    //LPWSTR* argv = CommandLineToArgvA(GetCommandLineA(), &argc);
     if (argc != 2)
     {
         rc = ERROR_INVALID_PARAMETER;
@@ -51,15 +93,7 @@ int main(int argc, char*argv[])
                 break;
             }
 
-            //szIP[IPbuflen - 1] = '\r';
-            //szIP[IPbuflen    ] = '\n';
-
 			printf("%s\n", szIP);
-			/*
-            if ((rc = WriteString(szIP, IPbuflen + 1) != 0))
-            {
-                break;
-            }*/
         }
 
         //FreeAddrInfoW(result);

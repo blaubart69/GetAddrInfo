@@ -1,0 +1,1 @@
+cl /GS- /nologo /Fm /W4 GetAddrInfo2000.c  /link /NODEFAULTLIB  /subsystem:console kernel32.lib shell32.lib ws2_32.lib c:\Local\dev\ProgKits\Microsoft\CL12\lib\MSVCRT.LIB
