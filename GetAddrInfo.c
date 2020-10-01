@@ -19,9 +19,15 @@ void rawmain()
     int rc = 0;
 
     int argc;
-    LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-    if (argc != 2)
+    LPWSTR* argv;
+    if ((argv = CommandLineToArgvW(GetCommandLineW(), &argc)) == NULL)
     {
+        rc = GetLastError();
+    }
+    else if (argc != 2)
+    {
+        LPCWSTR usage = L"usage: GetAddrInfo {hostname}\r\n";
+        WriteString(usage, lstrlenW(usage));
         rc = ERROR_INVALID_PARAMETER;
     }
     else if ((rc = WSAStartup(MAKEWORD(2, 2), &wsaData))       != 0)
